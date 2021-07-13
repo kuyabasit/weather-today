@@ -9,13 +9,13 @@ import './App.css';
 export class App extends Component {
   state = {
     loading: false,
-    weatherData: [],
+    weatherData: null,
   };
 
   weatherSearch = async (text) => {
     this.setState({ loading: true });
     const res = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=Iligan&units=metric&appid=a1dfd608e7a66b5e63db73ff0ef57c24`
+      `https://api.openweathermap.org/data/2.5/weather?q=${text}&units=metric&appid=${process.env.REACT_APP_APP_ID}`
     );
 
     this.setState({ weatherData: res.data, loading: false });

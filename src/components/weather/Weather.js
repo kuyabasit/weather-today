@@ -2,7 +2,11 @@ import React from 'react';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
 
-const Weather = ({ weatherData: { sys, name, main, weather }, loading }) => {
+const Weather = ({ weatherData, loading }) => {
+  if (!weatherData) return null;
+
+  const { sys, name, main, weather } = weatherData;
+
   const weatherDescription = weather[0].description;
   const weatherIcon =
     'http://openweathermap.org/img/wn/' + weather[0].icon + '@2x.png';
@@ -11,7 +15,7 @@ const Weather = ({ weatherData: { sys, name, main, weather }, loading }) => {
     return <Spinner />;
   } else {
     return (
-      <div>
+      <div className='badge'>
         <h1>
           {name} {sys.country}
         </h1>
