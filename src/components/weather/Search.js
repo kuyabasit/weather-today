@@ -8,10 +8,13 @@ export class Search extends Component {
 
   static propTypes = {
     weatherSearch: PropTypes.func.isRequired,
+    showAlert: PropTypes.func.isRequired,
   };
 
   onSubmit = (e) => {
-    if (this.state.text !== '') {
+    if (this.state.text === '') {
+      this.props.showAlert('Please Enter a place', 'danger');
+    } else {
       this.props.weatherSearch(this.state.text);
       this.setState({ text: '' });
     }
