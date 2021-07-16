@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
 import Search from './components/weather/Search';
 import Weather from './components/weather/Weather';
+import About from './components/pages/About';
 import axios from 'axios';
 
 import './App.css';
@@ -36,20 +38,33 @@ export class App extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <Navbar />
-        <div className='container'>
-          <Alert alert={this.state.alert} />
-          <Search
-            weatherSearch={this.weatherSearch}
-            showAlert={this.showAlert}
-          />
-          <Weather
-            weatherData={this.state.weatherData}
-            loading={this.state.loading}
-          />
+      <Router>
+        <div className='App'>
+          <Navbar />
+          <div className='container'>
+            <Alert alert={this.state.alert} />
+            <Switch>
+              <Route
+                exact
+                path='/'
+                render={() => (
+                  <Fragment>
+                    <Search
+                      weatherSearch={this.weatherSearch}
+                      showAlert={this.showAlert}
+                    />
+                    <Weather
+                      weatherData={this.state.weatherData}
+                      loading={this.state.loading}
+                    />
+                  </Fragment>
+                )}
+              />
+              <Route exact path='/about' component={About}></Route>
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
