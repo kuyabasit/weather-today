@@ -1,48 +1,43 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export class Search extends Component {
-  state = {
-    text: '',
-  };
+const Search = ({ showAlert, weatherSearch }) => {
+  const [text, setText] = useState('');
 
-  static propTypes = {
-    weatherSearch: PropTypes.func.isRequired,
-    showAlert: PropTypes.func.isRequired,
-  };
-
-  onSubmit = (e) => {
-    if (this.state.text === '') {
-      this.props.showAlert('Please Enter a place', 'danger');
+  const onSubmit = (e) => {
+    if (text === '') {
+      showAlert('Please Enter a place', 'danger');
     } else {
-      this.props.weatherSearch(this.state.text);
-      this.setState({ text: '' });
+      weatherSearch(text);
+      setText('');
     }
-
     e.preventDefault();
   };
 
-  onChange = (e) => this.setState({ text: e.target.value });
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmit} className='form'>
-          <input
-            type='text'
-            name='text'
-            placeholder='City...'
-            value={this.state.text}
-            onChange={this.onChange}
-          />
-          <input
-            type='submit'
-            value='Search'
-            className='btn btn-primary btn-block'
-          />
-        </form>
-      </div>
-    );
-  }
-}
+  const onChange = (e) => setText(e.target.value);
+  return (
+    <div>
+      <form onSubmit={onSubmit} className='form'>
+        <input
+          type='text'
+          name='text'
+          placeholder='City...'
+          value={text}
+          onChange={onChange}
+        />
+        <input
+          type='submit'
+          value='Search'
+          className='btn btn-primary btn-block'
+        />
+      </form>
+    </div>
+  );
+};
+
+Search.propTypes = {
+  weatherSearch: PropTypes.func.isRequired,
+  showAlert: PropTypes.func.isRequired,
+};
 
 export default Search;

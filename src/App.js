@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
@@ -9,64 +9,50 @@ import axios from 'axios';
 
 import './App.css';
 
-export class App extends Component {
-  state = {
-    loading: false,
-    weatherData: null,
-    alert: null,
+const App = () => {
+  const [loading, setLoading] = useState(false);
+  const [weatherData, setWeatherData] = useState(null);
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = (msg, type) => {
+    setAlert({ msg, type });
+
+    setTimeout(() => setAlert(null), 3000);
   };
 
-  showAlert = (msg, type) => {
-    this.setState({ alert: { msg, type } });
-
-    setTimeout(() => this.setState({ alert: null }), 3000);
-  };
-
-  weatherSearch = async (text) => {
-    this.setState({ loading: true });
+  const weatherSearch = async (text) => {
+    setLoading(true);
     const res = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${text}&units=metric&appid=${process.env.REACT_APP_APP_ID}`
     );
 
-    setTimeout(() => {
-      this.setState({ loading: null });
-      this.showAlert('City Not Found', 'danger');
-    }, 5000);
-
-    this.setState({ weatherData: res.data, loading: false });
+    setLoading(false);
+    setWeatherData(res.data);
   };
 
-  render() {
-    return (
-      <Router>
-        <div className='App'>
-          <Navbar />
-          <div className='container'>
-            <Alert alert={this.state.alert} />
-            <Switch>
-              <Route
-                exact
-                path='/'
-                render={() => (
-                  <Fragment>
-                    <Search
-                      weatherSearch={this.weatherSearch}
-                      showAlert={this.showAlert}
-                    />
-                    <Weather
-                      weatherData={this.state.weatherData}
-                      loading={this.state.loading}
-                    />
-                  </Fragment>
-                )}
-              />
-              <Route exact path='/about' component={About}></Route>
-            </Switch>
-          </div>
+  return (
+    <Router>
+      <div className='App'>
+        <Navbar />
+        <div className='container'>
+          <Alert alert={alert} />
+          <Switch>
+            <Route
+              exact
+              path='/'
+              render={() => (
+                <Fragment>
+                  <Search weatherSearch={weatherSearch} showAlert={showAlert} />
+                  <Weather weatherData={weatherData} loading={loading} />
+                </Fragment>
+              )}
+            />
+            <Route exact path='/about' component={About}></Route>
+          </Switch>
         </div>
-      </Router>
-    );
-  }
-}
+      </div>
+    </Router>
+  );
+};
 
 export default App;
