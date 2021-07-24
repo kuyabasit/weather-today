@@ -1,1 +1,2 @@
 export const WEATHER_SEARCH = 'WEATHER_SEARCH';
+export const SET_LOADING = 'SET_LOADING';

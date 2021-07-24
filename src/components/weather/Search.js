@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import WeatherContext from '../../context/openWeather/weatherContext';
 
-const Search = ({ showAlert, weatherSearch }) => {
+const Search = ({ showAlert }) => {
+  const weatherContext = useContext(WeatherContext);
+
   const [text, setText] = useState('');
 
   const onSubmit = (e) => {
     if (text === '') {
       showAlert('Please Enter a place', 'danger');
     } else {
-      weatherSearch(text);
+      weatherContext.weatherSearch(text);
       setText('');
     }
     e.preventDefault();
@@ -36,7 +39,6 @@ const Search = ({ showAlert, weatherSearch }) => {
 };
 
 Search.propTypes = {
-  weatherSearch: PropTypes.func.isRequired,
   showAlert: PropTypes.func.isRequired,
 };
 

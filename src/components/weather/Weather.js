@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
+import WeatherContext from '../../context/openWeather/weatherContext';
 
-const Weather = ({ weatherData, loading }) => {
+const Weather = () => {
+  const weatherContext = useContext(WeatherContext);
+
+  const { loading, weatherData } = weatherContext;
+
   if (!weatherData) return null;
 
   const { sys, name, main, weather } = weatherData;
