@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
-import Search from './components/weather/Search';
-import Weather from './components/weather/Weather';
+
+import Home from './components/pages/Home';
 import About from './components/pages/About';
 
 import WeatherState from './context/openWeather/WeatherState';
@@ -21,16 +21,7 @@ const App = () => {
             <div className='container'>
               <Alert />
               <Switch>
-                <Route
-                  exact
-                  path='/'
-                  render={() => (
-                    <Fragment>
-                      <Search />
-                      <Weather />
-                    </Fragment>
-                  )}
-                />
+                <Route exact path='/' component={Home} />
                 <Route exact path='/about' component={About}></Route>
               </Switch>
             </div>

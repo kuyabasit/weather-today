@@ -1,6 +1,6 @@
 import { WEATHER_SEARCH, SET_LOADING } from '../types';
 
-export default (state, action) => {
+const weatherReducer = (state, action) => {
   switch (action.type) {
     case WEATHER_SEARCH:
       return {
@@ -17,3 +17,5 @@ export default (state, action) => {
       return state;
   }
 };
+
+export default weatherReducer;
