@@ -7,6 +7,8 @@ import Weather from './components/weather/Weather';
 import About from './components/pages/About';
 import axios from 'axios';
 
+import WeatherState from './context/openWeather/weatherState';
+
 import './App.css';
 
 const App = () => {
@@ -31,27 +33,32 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <div className='App'>
-        <Navbar />
-        <div className='container'>
-          <Alert alert={alert} />
-          <Switch>
-            <Route
-              exact
-              path='/'
-              render={() => (
-                <Fragment>
-                  <Search weatherSearch={weatherSearch} showAlert={showAlert} />
-                  <Weather weatherData={weatherData} loading={loading} />
-                </Fragment>
-              )}
-            />
-            <Route exact path='/about' component={About}></Route>
-          </Switch>
+    <WeatherState>
+      <Router>
+        <div className='App'>
+          <Navbar />
+          <div className='container'>
+            <Alert alert={alert} />
+            <Switch>
+              <Route
+                exact
+                path='/'
+                render={() => (
+                  <Fragment>
+                    <Search
+                      weatherSearch={weatherSearch}
+                      showAlert={showAlert}
+                    />
+                    <Weather weatherData={weatherData} loading={loading} />
+                  </Fragment>
+                )}
+              />
+              <Route exact path='/about' component={About}></Route>
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </WeatherState>
   );
 };
 
