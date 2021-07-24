@@ -1,15 +1,16 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import WeatherContext from '../../context/openWeather/weatherContext';
+import AlertContext from '../../context/alert/alertContext';
 
-const Search = ({ showAlert }) => {
+const Search = () => {
   const weatherContext = useContext(WeatherContext);
+  const alertContext = useContext(AlertContext);
 
   const [text, setText] = useState('');
 
   const onSubmit = (e) => {
     if (text === '') {
-      showAlert('Please Enter a place', 'danger');
+      alertContext.showAlert('Please Enter a place', 'danger');
     } else {
       weatherContext.weatherSearch(text);
       setText('');
@@ -36,10 +37,6 @@ const Search = ({ showAlert }) => {
       </form>
     </div>
   );
-};
-
-Search.propTypes = {
-  showAlert: PropTypes.func.isRequired,
 };
 
 export default Search;

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
@@ -7,41 +7,36 @@ import Weather from './components/weather/Weather';
 import About from './components/pages/About';
 
 import WeatherState from './context/openWeather/WeatherState';
+import AlertState from './context/alert/AlertState';
 
 import './App.css';
 
 const App = () => {
-  const [alert, setAlert] = useState(null);
-
-  const showAlert = (msg, type) => {
-    setAlert({ msg, type });
-
-    setTimeout(() => setAlert(null), 3000);
-  };
-
   return (
     <WeatherState>
-      <Router>
-        <div className='App'>
-          <Navbar />
-          <div className='container'>
-            <Alert alert={alert} />
-            <Switch>
-              <Route
-                exact
-                path='/'
-                render={() => (
-                  <Fragment>
-                    <Search showAlert={showAlert} />
-                    <Weather />
-                  </Fragment>
-                )}
-              />
-              <Route exact path='/about' component={About}></Route>
-            </Switch>
+      <AlertState>
+        <Router>
+          <div className='App'>
+            <Navbar />
+            <div className='container'>
+              <Alert />
+              <Switch>
+                <Route
+                  exact
+                  path='/'
+                  render={() => (
+                    <Fragment>
+                      <Search />
+                      <Weather />
+                    </Fragment>
+                  )}
+                />
+                <Route exact path='/about' component={About}></Route>
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </AlertState>
     </WeatherState>
   );
 };
